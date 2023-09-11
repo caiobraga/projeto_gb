@@ -9,6 +9,10 @@ html {
   font-family: "Inter", sans-serif;
 }
 
+body {
+	background-color: #292929;
+}
+
 @supports (font-variation-settings: normal) {
   html {
     font-family: "Inter var", sans-serif;

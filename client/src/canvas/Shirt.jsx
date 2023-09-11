@@ -8,7 +8,7 @@ import state from "../store";
 
 const Shirt = () => {
   const snap = useSnapshot(state);
-  const { nodes, materials } = useGLTF("/shirt_baked.glb");
+  const { nodes, materials } = useGLTF("/jeans.glb");
 
   const logoTexture = useTexture(snap.logoDecal);
   const fullTexture = useTexture(snap.fullDecal);
@@ -22,8 +22,7 @@ const Shirt = () => {
   return (
     <group key={stateString}>
       <mesh
-        castShadow
-        geometry={nodes.T_Shirt_male.geometry}
+        geometry={nodes.jeans.geometry}
         material={materials.lambert1}
         material-roughness={1}
         dispose={null}
@@ -39,13 +38,13 @@ const Shirt = () => {
 
         {snap.isLogoTexture && (
           <Decal
-            position={[0, 0.04, 0.15]}
+            position={[-0.085, 0.135, 0.15]}
             rotation={[0, 0, 0]}
             scale={0.15}
             map={logoTexture}
-            // map-anisotropy={16}
             depthTest={false}
             depthWrite={true}
+            polygonOffset={true}
           />
         )}
       </mesh>
