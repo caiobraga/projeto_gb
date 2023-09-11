@@ -2,7 +2,6 @@
 	"name": "projeto_gb",
 	"version": "1.0.0",
 	"repository": "https://github.com/caiobraga/projeto_gb.git",
-	"author": "johnpolsh <jo1693.pzoli@gmail.com>",
 	"license": "MIT",
 	"private": true,
 	"scripts": {
@@ -26,6 +25,7 @@
 		"valtio": "^1.11.0"
 	},
 	"devDependencies": {
+		"@react-three/eslint-plugin": "^0.1.1",
 		"@types/react": "^18.2.21",
 		"@types/react-dom": "^18.2.7",
 		"@vitejs/plugin-react": "^4.0.4",
