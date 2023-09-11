@@ -25,26 +25,9 @@ const Mesh = () => {
 		roughness: 1,
 	  }), [snap.color]);
 	  
-	  // Your existing canvas texture material
-	  // Create a live reference to the canvas texture
-  const canvasTextureRef = useRef(textureRef.current);
-  canvasTextureRef.current = textureRef.current;
+	 
 
-	 // Use the live reference in the canvasTextureMaterial
-  const canvasTextureMaterial = useMemo(
-    () =>
-      new THREE.MeshStandardMaterial({
-        map: canvasTextureRef.current,
-        metalness: 0,
-        roughness: 1,
-      }),
-    []
-  );
-
-  useLayoutEffect(()=> {
-	colorMaterial.color.set(snap.color); // Update color directly
-  colorMaterial.needsUpdate = true; // Force material update
-  }, [snap.color])
+  
 	useLayoutEffect(() => {
 		const canvas = canvasRef.current;
 	
@@ -53,18 +36,22 @@ const Mesh = () => {
 	
 		const context = canvas.getContext("2d");
 		if (context) {
+			
 		  context.rect(0, 0, canvas.width, canvas.height);
 		  context.fillStyle = snap.color;
 		  context.fill();
 		  
+		  
 		}
 	  }, []);
+
+	  
 	
 	  function handleBrushPointerMove({ uv }) {
 		if (allowControls || !snap.islookView) {
 		  return;
 		}
-		if (uv) {
+ 		if (uv) {
 		  const canvas = canvasRef.current;
 	
 		  const x = uv.x * canvas.width;
@@ -89,10 +76,12 @@ const Mesh = () => {
 	  }
 
 	useFrame((state, delta) => {
-		easing.dampC(colorMaterial.color, snap.color, 0.25, delta)
-	}
+		easing.dampC(materials.lambert1.color , snap.color, 0.25, delta)
+	}, [snap.color]
 		
 	);
+
+
 
 	
 
@@ -102,7 +91,7 @@ const Mesh = () => {
 		<group key={stateString}>
 			<mesh
 				geometry={nodes.jeans.geometry}
-				material={colorMaterial}
+				material={materials.lambert1}
 				material-roughness={1}
 				dispose={null}
 				onPointerDown={() => setAllowControls(false)}
@@ -126,11 +115,14 @@ const Mesh = () => {
               ref={textureRef}
               attach="map"
               image={canvasRef.current}
-
+		  		
 			  
               
             />
           </meshStandardMaterial>
+
+		  
+ 
 
 {/* Apply the canvas texture material for the texture */}
  
