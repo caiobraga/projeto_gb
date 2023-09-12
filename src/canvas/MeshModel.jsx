@@ -13,10 +13,11 @@ import React, {
 	useMemo,
 } from "react";
 import * as THREE from "three";
+import DecalModel from "./DecalModel";
 
-const MeshModel = () => {
+const Mesh = () => {
 	const snap = useSnapshot(state);
-	const { nodes, materials } = useGLTF("/jeans.glb");
+	const { nodes, materials } = useGLTF("/shirt.glb");
 
 	const logoTexture = useTexture(snap.logoDecal);
 	const fullTexture = useTexture(snap.fullDecal);
@@ -87,7 +88,7 @@ const MeshModel = () => {
 	return (
 		<group key={stateString}>
 			<mesh
-				geometry={nodes.jeans.geometry}
+				geometry={nodes.T_Shirt_male.geometry}
 				material={materials.lambert1}
 				material-roughness={1}
 				dispose={null}
@@ -116,8 +117,8 @@ const MeshModel = () => {
 				</meshStandardMaterial>
 
 				{/* Apply the canvas texture material for the texture */}
-
-				{snap.isFullTexture && (
+                
+				{/* {snap.isFullTexture && (
 					<Decal
 						position={[0, 0, 0]}
 						rotation={[0, 0, 0]}
@@ -136,10 +137,10 @@ const MeshModel = () => {
 						depthWrite={true}
 						polygonOffset={true}
 					/>
-				)}
+				)} */}
 			</mesh>
 		</group>
 	);
 };
 
-export default MeshModel;
+export default Mesh;
