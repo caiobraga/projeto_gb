@@ -5,10 +5,10 @@ import { useGLTF } from "@react-three/drei";
 
 import state from "../store";
 import DecalModel from "./DecalModel";
-import { useState } from "react";
-import { Vector3 } from "three";
+import { useRef, useState } from "react";
 
 const MeshModel = () => {
+	const ref = useRef();
 	const snap = useSnapshot(state);
 	const { nodes, materials } = useGLTF("/shirt.glb");
 	const [decals, setDecal] = useState([]);
@@ -19,21 +19,20 @@ const MeshModel = () => {
 		easing.dampC(materials.lambert1.color, snap.color, 0.25, delta)
 	);
 
-	function createDecal(e) {
-		console.log(e);
-		let pos = e.point.toArray();
-		let norm = e.face.normal;
-		let rot = [
-			norm.angleTo(new Vector3(1, 0, 0)),
-			norm.angleTo(new Vector3(0, 1, 0)),
-			norm.angleTo(new Vector3(0, 0, 1)),
-		];
+	function createDecal(intersect) {
+		let pos = intersect.point;
+        // pos.multiplyScalar(1);
+		let norm = intersect.face.normal.clone();
+		norm.transformDirection(ref.current.matrixWorld);
+		norm.multiplyScalar(0.0000001);
+		norm.add(intersect.point);
+		console.log(norm);
 
 		return (
 			<DecalModel
 				src="/threejs.png"
-				debug
-				position={pos}
+				// debug
+				position={norm}
 				// rotation={rot}
 				scale={0.2}
 			/>
@@ -45,17 +44,19 @@ const MeshModel = () => {
 	return (
 		<group key={stateString}>
 			<mesh
+				ref={ref}
 				onClick={(e) => {
 					e.stopPropagation();
 					setClicked(!clicked);
-					decals.push(createDecal(e));
-                }}
+					decals.push(createDecal(e.intersections[0]));
+				}}
 				onPointerOver={(e) => (e.stopPropagation(), setHovered(true))}
-				onPointerOut={(e) => setHovered(false)}
+				onPointerOut={(_) => setHovered(false)}
 				geometry={nodes.T_Shirt_male.geometry}
 				material={materials.lambert1}
 				material-roughness={1}
 				dispose={null}>
+				{/* <Wireframe /> */}
 				{/* <bufferGeometry
 					attach="geometry"
 					onUpdate={(self) => self.computeVertexNormals()}>

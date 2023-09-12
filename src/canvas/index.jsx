@@ -15,6 +15,7 @@ import { useState } from "react";
 
 const CanvasModel = () => {
 	const snap = useSnapshot(state);
+	const [{ objects, cycle }, setRaycast] = useState({});
 
 	return (
 		<Canvas
@@ -41,7 +42,7 @@ const CanvasModel = () => {
 				</Center>
 			</OrthographicCamera>
 			<CycleRaycast
-				// onChanged={(objects, cycle) => setRaycast(objects, cycle)}
+				onChanged={(objects, cycle) => setRaycast(objects, cycle)}
 			/>
 		</Canvas>
 	);

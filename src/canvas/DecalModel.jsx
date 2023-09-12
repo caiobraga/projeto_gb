@@ -1,16 +1,18 @@
 import { Decal, useTexture } from "@react-three/drei";
+import { useRef } from "react";
 
 const DecalModel = ({ src, ...props }) => {
+    const ref = useRef();
 	const texture = useTexture(src);
 
 	return (
-		<Decal {...props}>
+		<Decal ref={ref} {...props}>
 			<meshPhysicalMaterial
 				transparent
                 polygonOffset
                 polygonOffsetFactor={-10}
                 map={texture}
-                map-flipZ={false}
+                // map-flipZ={false}
                 map-anisotropy={16}
                 iridescence={1}
                 iridescenceIOR={1}
